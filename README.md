@@ -1,6 +1,7 @@
 # Django Test PEP8
 
-Django APP to run PEP8 tests in your project.   
+Django APP to run PEP8 tests in your project. Updated for python3 and using pycodestyle
+as pep8 project is due to be deprecated
     
 This app uses [pep8 package](http://pypi.python.org/pypi/pep8) to run tests.
 

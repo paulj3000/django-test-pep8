@@ -1,20 +1,19 @@
 import os
-import pep8
+import pycodestyle
 from django.test import TestCase
 from django.conf import settings
 
 
-class CollectTestReport(pep8.BaseReport):
+class CollectTestReport(pycodestyle.BaseReport):
 
     def __init__(self, options):
-        super(CollectTestReport, self).__init__(options)
+        super().__init__(options)
         self.all_errors = []
-        self._fmt = pep8.REPORT_FORMAT.get(options.format.lower(),
+        self._fmt = pycodestyle.REPORT_FORMAT.get(options.format.lower(),
                                            options.format)
 
     def error(self, line_number, offset, text, check):
-        code = super(CollectTestReport, self).error(line_number, offset,
-                                                    text, check)
+        code = super().error(line_number, offset, text, check)
         if not code:
             return
 
@@ -28,7 +27,7 @@ class CollectTestReport(pep8.BaseReport):
 
 class PEP8Test(TestCase):
 
-    def test_pep8(self):
+    def test_pycodestyle(self):
 
         try:
             exclude = settings.TEST_PEP8_EXCLUDE
@@ -40,11 +39,11 @@ class PEP8Test(TestCase):
         except AttributeError:
             ignore = []
 
-        pep8_style = pep8.StyleGuide(reporter=CollectTestReport,
+        pycodestyle_style = pycodestyle.StyleGuide(reporter=CollectTestReport,
                                      exclude=exclude,
                                      ignore=ignore)
 
-        report = pep8_style.check_files(settings.TEST_PEP8_DIRS)
+        report = pycodestyle_style.check_files(settings.TEST_PEP8_DIRS)
 
         if report.all_errors:
             raise AssertionError(
